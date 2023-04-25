@@ -3,6 +3,9 @@
 
 require get_theme_file_path('/inc/search-route.php');
 function university_custom_rest() {
+    // first argument of the function below is the post type, 
+    // second argument the added field name,
+    // third argument the author of each blog post
     register_rest_field('post','authorName', array(
         'get_callback' => function() {
             return get_the_author();
