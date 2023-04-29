@@ -60,7 +60,8 @@ function university_post_types()
             'show_in_rest' => true,
             //to use the modern block editor in the supports key add 'editor'
             //if the editor is deleted, the classic editor will show
-            'supports' => array('title', 'editor'),
+            //editor is main default content field
+            'supports' => array('title'),
             'rewrite' => array(
                 'slug' => 'programs'
             ),
