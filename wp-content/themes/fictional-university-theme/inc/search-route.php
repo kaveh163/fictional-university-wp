@@ -3,6 +3,8 @@
 add_action('rest_api_init', 'universityRegisterSearch');
 function universityRegisterSearch()
 {
+    //the first argument of register_rest_route is the namespace. 
+    //v1 is the version of the restapi
     register_rest_route('university/v1', 'search', array(
         //READABLE evaluates to GET in CRUD
         'methods' => WP_REST_SERVER::READABLE,
