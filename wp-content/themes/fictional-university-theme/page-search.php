@@ -5,7 +5,7 @@ while (have_posts()) {
     pageBanner();
     ?>
 
-    
+
 
     <div class="container container--narrow page-section">
 
@@ -57,7 +57,7 @@ while (have_posts()) {
         <?php } ?>
 
         <div class="generic-content">
-            <?php the_content(); ?>
+            <?php get_search_form();?>
         </div>
     </div>
 

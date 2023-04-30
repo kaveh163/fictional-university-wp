@@ -136,6 +136,7 @@ class Search {
     setTimeout(() => this.searchField.focus(), 301)
     console.log("our open method just ran!")
     this.isOverlayOpen = true
+    //return false will prevent the default behaviour of <a> or link elements.
     return false
   }
 
