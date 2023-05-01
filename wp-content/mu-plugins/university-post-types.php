@@ -7,6 +7,10 @@ function university_post_types()
     register_post_type(
         'campus',
         array(
+            //value of capability_type should be unique
+            // doesn't need to be the campus post type name
+            'capability_type' => 'campus',
+            'map_meta_cap' => true,
             //visible to editors and viewers of the website
             'show_in_rest' => true,
             //to use the modern block editor in the supports key add 'editor'
@@ -32,6 +36,16 @@ function university_post_types()
     register_post_type(
         'event',
         array(
+            // code below, for telling event post not to behave
+            // like blog posts when it comes to permission and
+            // capabilities, instead it should have its unique
+            // permissions and capabilites
+            'capability_type' => 'event',
+            // to enforce and require the permissions
+            // filter that maps meta capabilities for custom post types 
+            // automatically require the event permissions in order to 
+            // manage and edit the event posts at the right time.
+            'map_meta_cap' => true,
             //visible to editors and viewers of the website
             'show_in_rest' => true,
             //to use the modern block editor in the supports key add 'editor'
