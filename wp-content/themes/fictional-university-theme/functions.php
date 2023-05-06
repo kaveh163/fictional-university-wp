@@ -60,7 +60,10 @@ function university_files()
     wp_enqueue_style('university_extra_styles', get_theme_file_uri('/build/index.css'));
 
     wp_localize_script('main-university-js', 'universityData', array(
-        'root_url' => get_site_url()
+        'root_url' => get_site_url(),
+        //nonce :  Whenever we successfully log in into wordpress, wordpress creates a random generated number for the user session
+        // The API uses nonces with the action set to wp_rest
+        'nonce' => wp_create_nonce('wp_rest')
     ));
 }
 // university_files function runs at specific moments and that moment is specified by wp_enqueue_scripts.
@@ -170,5 +173,22 @@ add_filter('login_headertext', 'ourLoginTitle');
 function ourLoginTitle() {
     //if building a theme that might be used by many sites in that case fetch the official sitename from the databas
     return get_bloginfo('name');
+}
+
+// Force note posts to be private
+add_filter('wp_insert_post_data', 'makeNotePrivate');
+function makeNotePrivate($data) {
+    if($data['post_type'] == "note") {
+        $data['post_content'] = sanitize_textarea_field($data['post_content']);
+        $data['post_title'] = sanitize_text_field($data['post_title']);
+    }
+    //$data is all the data that is going to be sent to database.
+    //post_status private makes user notes invisible in restapi.
+    //post_status publish shows all user notes in restapi.
+    if( $data['post_type'] == 'note' AND $data['post_status'] != 'trash') {
+        $data['post_status'] = "private";
+    }
+    
+    return $data;
 }
 ?>
