@@ -49,6 +49,9 @@ class MyNotes {
                 thisNote.slideUp();
                 console.log("Congrats");
                 console.log(response);
+                if(response.userNoteCount < 5) {
+                    $('.note-limit-message').removeClass('active');
+                }
                 //window.location.href = universityData.root_url + '/my-notes';
             },
             error: (response) => {
@@ -129,6 +132,9 @@ class MyNotes {
                 //window.location.href = universityData.root_url + '/my-notes';
             },
             error: (response) => {
+                if(response.responseText == 'You have reached your note limit.') {
+                    $('.note-limit-message').addClass('active');
+                }
                 console.log("Sorry");
                 console.log(response);
             }
