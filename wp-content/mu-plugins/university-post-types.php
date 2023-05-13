@@ -140,6 +140,29 @@ function university_post_types()
             'menu_icon' => 'dashicons-welcome-write-blog'
         )
     );
+    // Like Post Type
+    register_post_type(
+        'like',
+        array(
+            //to use the modern block editor in the supports key add 'editor'
+            //if the editor is deleted, the classic editor will show
+            'supports' => array('title'),
+            // set public to false:
+            // we don't want a like post to show in public queries or in search results
+            // public value equals to false hides the note from dashboard
+            // in order to show in admin dashboard we set show_ui to true
+            'public' => false,
+            'show_ui' => true,
+            'labels' => array(
+                'name' => 'Likes',
+                'add_new_item' => 'Add New Like',
+                'edit_item' => 'Edit Like',
+                'all_items' => 'All Likes',
+                'singular_name' => 'Like'
+            ),
+            'menu_icon' => 'dashicons-heart'
+        )
+    );
 
 }
 add_action('init', 'university_post_types');
