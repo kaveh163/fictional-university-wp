@@ -1,6 +1,7 @@
 <?php
 // Global function used in the theme templates
 
+require get_theme_file_path('/inc/like-route.php');
 require get_theme_file_path('/inc/search-route.php');
 function university_custom_rest() {
     // first argument of the function below is the post type, 
