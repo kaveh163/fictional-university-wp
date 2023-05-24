@@ -111,6 +111,27 @@ function university_post_types()
             'menu_icon' => 'dashicons-welcome-learn-more'
         )
     );
+
+    // Slide Post Type
+    register_post_type(
+        'slide',
+        array(
+            //visible to editors and viewers of the website
+            'show_in_rest' => true,
+            //to use the modern block editor in the supports key add 'editor'
+            //if the editor is deleted, the classic editor will show
+            'supports' => array('title', 'editor'),
+            'public' => true,
+            'labels' => array(
+                'name' => 'Slides',
+                'add_new_item' => 'Add New Slide',
+                'edit_item' => 'Edit Slide',
+                'all_items' => 'All Slides',
+                'singular_name' => 'Slide'
+            ),
+            'menu_icon' => 'dashicons-slides'
+        )
+    );    
     // Note Post Type
     register_post_type(
         'note',
