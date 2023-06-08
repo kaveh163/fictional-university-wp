@@ -54,6 +54,7 @@ class WordCountAndTimePlugin
             $wordCount = str_word_count(strip_tags($content));
         }
         if (get_option('wcp_wordcount', '1')) {
+            // esc_html__ retrieves the translation text and escapes the html tags (example scripts)
             $html .= esc_html__('This post has', 'wcpdomain') . ' ' . $wordCount . ' ' . __('words', 'wcpdomain') . '.<br>';
         }
         if (get_option('wcp_charactercount', '1')) {
