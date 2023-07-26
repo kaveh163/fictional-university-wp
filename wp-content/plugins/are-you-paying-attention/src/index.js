@@ -16,7 +16,7 @@ import {
   ColorPicker
 } from "@wordpress/components";
 // webpack configuration that our automated javascript package is using looks for this library in the browser global scope.
-import {InspectorControls, BlockControls, AlignmentToolbar} from "@wordpress/block-editor";
+import {InspectorControls, BlockControls, AlignmentToolbar, useBlockProps} from "@wordpress/block-editor";
 import {ChromePicker} from "react-color";
 (function() {
     let locked = false;
@@ -76,6 +76,9 @@ wp.blocks.registerBlockType("ourplugin/are-you-paying-attention", {
   },
 });
 function EditComponent(props) {
+  const blockProps = useBlockProps({
+    className:"paying-attention-edit-block", style:{backgroundColor: props.attributes.bgColor}
+  });
   function updateQuestion(value) {
     props.setAttributes({ question: value });
   }
@@ -96,7 +99,7 @@ function EditComponent(props) {
     // FlexBlock takes as much space as it can
     // FlexItem takes the small space that it can need
     // TextControl is a wordpress component
-    <div className="paying-attention-edit-block" style={{backgroundColor: props.attributes.bgColor}}>
+    <div {...blockProps}>
         <BlockControls>
             <AlignmentToolbar value={props.attributes.theAlignment} onChange={x => props.setAttributes({theAlignment: x})}/>
         </BlockControls>
