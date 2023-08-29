@@ -1,5 +1,5 @@
 import { ToolbarGroup, ToolbarButton } from "@wordpress/components";
-import { RichText, BlockControls } from "@wordpress/block-editor";
+import { RichText, BlockControls, AlignmentToolbar, BlockAlignmentToolbar } from "@wordpress/block-editor";
 import { registerBlockType } from "@wordpress/blocks";
 // first argument: namespace for all our blocks, and name for our specific block
 registerBlockType("ourblocktheme/genericheading", {
@@ -18,6 +18,7 @@ function EditComponent(props) {
   function handleTextChange(x) {
     props.setAttributes({ text: x });
   }
+  
   return (
     <>
       <BlockControls>

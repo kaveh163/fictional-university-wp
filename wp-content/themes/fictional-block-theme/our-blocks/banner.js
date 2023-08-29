@@ -3,15 +3,27 @@
 // The InnerBlocks component lets us to click on the plus symbol in the block editor
 // to start adding new blocks inside our block
 // To restrict the blocks we can add to our block, use allowedBlocks prop in InnerBlock Component
-import { InnerBlocks } from "@wordpress/block-editor";
+import { InnerBlocks, useBlockProps } from "@wordpress/block-editor";
 // first argument: namespace for all our blocks, and name for our specific block
 wp.blocks.registerBlockType("ourblocktheme/banner", {
+  apiVersion: 2,
   title: "Banner",
+  supports: {
+    align: true,
+  },
+  attributes: {
+    align: {
+      type: "string",
+      default: "full"
+    },
+  },
+  
   edit: EditComponent,
   save: SaveComponent,
 });
 
 function EditComponent() {
+  const blockProps = useBlockProps({className: "page-banner"});
   const useMeLater = (
     <>
       <h1 className="headline headline--large">Welcome!</h1>
@@ -28,7 +40,7 @@ function EditComponent() {
     </>
   );
   return (
-    <div className="page-banner">
+    <div { ...blockProps }>
       <div
         className="page-banner__bg-image"
         style={{
@@ -37,15 +49,16 @@ function EditComponent() {
         }}
       ></div>
       <div className="page-banner__content container t-center c-white">
-        <InnerBlocks allowedBlocks={["ourblocktheme/genericheading"]}/>
+        <InnerBlocks allowedBlocks={["ourblocktheme/genericheading"]} />
       </div>
     </div>
   );
 }
 // return content of SaveComponent will be saved in database
 function SaveComponent() {
+  const blockProps = useBlockProps.save({className: "page-banner"});
   return (
-    <div className="page-banner">
+    <div { ...blockProps }>
       <div
         className="page-banner__bg-image"
         style={{

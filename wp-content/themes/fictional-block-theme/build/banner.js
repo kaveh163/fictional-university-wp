@@ -110,11 +110,24 @@ __webpack_require__.r(__webpack_exports__);
 
 // first argument: namespace for all our blocks, and name for our specific block
 wp.blocks.registerBlockType("ourblocktheme/banner", {
+  apiVersion: 2,
   title: "Banner",
+  supports: {
+    align: true
+  },
+  attributes: {
+    align: {
+      type: "string",
+      default: "full"
+    }
+  },
   edit: EditComponent,
   save: SaveComponent
 });
 function EditComponent() {
+  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)({
+    className: "page-banner"
+  });
   const useMeLater = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h1", {
     className: "headline headline--large"
   }, "Welcome!"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
@@ -126,7 +139,7 @@ function EditComponent() {
     className: "btn btn--large btn--blue"
   }, "Find Your Major"));
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "page-banner"
+    ...blockProps
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "page-banner__bg-image",
     style: {
@@ -140,8 +153,11 @@ function EditComponent() {
 }
 // return content of SaveComponent will be saved in database
 function SaveComponent() {
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  const blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save({
     className: "page-banner"
+  });
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    ...blockProps
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "page-banner__bg-image",
     style: {
