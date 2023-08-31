@@ -113,9 +113,9 @@ module.exports = window["wp"]["element"];
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 !function() {
-/*!**************************************!*\
-  !*** ./our-blocks/genericheading.js ***!
-  \**************************************/
+/*!*********************************************!*\
+  !*** ./our-blocks/blockB/genericheading.js ***!
+  \*********************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
@@ -131,20 +131,12 @@ __webpack_require__.r(__webpack_exports__);
 
 // first argument: namespace for all our blocks, and name for our specific block
 (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__.registerBlockType)("ourblocktheme/genericheading", {
-  title: "Generic Heading",
-  attributes: {
-    text: {
-      type: "string"
-    },
-    size: {
-      type: "string",
-      default: "large"
-    }
-  },
+  apiVersion: 2,
   edit: EditComponent,
   save: SaveComponent
 });
 function EditComponent(props) {
+  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
   // providing an empty array to allowedFormats makes all of the options like bold or italic gone in the toolbar editor for the block.
   // for the isPressed value, we give it a value of true or false, so that decides whether the button should be selected or highlighted.
   function handleTextChange(x) {
@@ -152,7 +144,9 @@ function EditComponent(props) {
       text: x
     });
   }
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.ToolbarGroup, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.ToolbarButton, {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    ...blockProps
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.ToolbarGroup, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.ToolbarButton, {
     isPressed: props.attributes.size === "large",
     onClick: () => props.setAttributes({
       size: "large"
@@ -177,6 +171,11 @@ function EditComponent(props) {
 }
 // return content of SaveComponent will be saved in database
 function SaveComponent(props) {
+  const blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps.save({
+    tagName: createTagName(),
+    value: props.attributes.text,
+    className: `headline headline--${props.attributes.size}`
+  });
   function createTagName() {
     switch (props.attributes.size) {
       case "large":
@@ -188,9 +187,7 @@ function SaveComponent(props) {
     }
   }
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText.Content, {
-    tagName: createTagName(),
-    value: props.attributes.text,
-    className: `headline headline--${props.attributes.size}`
+    ...blockProps
   });
 }
 }();

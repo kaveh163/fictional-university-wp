@@ -93,9 +93,9 @@ module.exports = window["wp"]["element"];
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 !function() {
-/*!******************************!*\
-  !*** ./our-blocks/banner.js ***!
-  \******************************/
+/*!*************************************!*\
+  !*** ./our-blocks/blockA/banner.js ***!
+  \*************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
@@ -109,18 +109,9 @@ __webpack_require__.r(__webpack_exports__);
 // To restrict the blocks we can add to our block, use allowedBlocks prop in InnerBlock Component
 
 // first argument: namespace for all our blocks, and name for our specific block
+
 wp.blocks.registerBlockType("ourblocktheme/banner", {
   apiVersion: 2,
-  title: "Banner",
-  supports: {
-    align: true
-  },
-  attributes: {
-    align: {
-      type: "string",
-      default: "full"
-    }
-  },
   edit: EditComponent,
   save: SaveComponent
 });

@@ -969,7 +969,9 @@ body.login {
   padding: 80px 0 40px 0;
   position: relative;
 }
-
+.block-editor-block-list__layout.is-root-container .wp-block:has([class*="banner"]) {
+  max-width: 100%!important;
+}
 @media (min-width: 530px) {
   .page-banner {
     padding: 130px 0 60px 0;
