@@ -113,9 +113,9 @@ module.exports = window["wp"]["element"];
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 !function() {
-/*!*********************************************!*\
-  !*** ./our-blocks/blockB/genericheading.js ***!
-  \*********************************************/
+/*!**************************************!*\
+  !*** ./our-blocks/genericheading.js ***!
+  \**************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
@@ -132,6 +132,16 @@ __webpack_require__.r(__webpack_exports__);
 // first argument: namespace for all our blocks, and name for our specific block
 (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__.registerBlockType)("ourblocktheme/genericheading", {
   apiVersion: 2,
+  title: "Generic Heading",
+  attributes: {
+    text: {
+      type: "string"
+    },
+    size: {
+      type: "string",
+      default: "large"
+    }
+  },
   edit: EditComponent,
   save: SaveComponent
 });

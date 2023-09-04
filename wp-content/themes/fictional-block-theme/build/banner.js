@@ -93,9 +93,9 @@ module.exports = window["wp"]["element"];
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 !function() {
-/*!*************************************!*\
-  !*** ./our-blocks/blockA/banner.js ***!
-  \*************************************/
+/*!******************************!*\
+  !*** ./our-blocks/banner.js ***!
+  \******************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
@@ -112,6 +112,22 @@ __webpack_require__.r(__webpack_exports__);
 
 wp.blocks.registerBlockType("ourblocktheme/banner", {
   apiVersion: 2,
+  title: "Banner",
+  attributes: {
+    align: {
+      type: "string",
+      default: "full"
+    }
+  },
+  supports: {
+    align: ["full"],
+    __experimentalLayout: {
+      allowSwitching: false,
+      default: {
+        inherit: true
+      }
+    }
+  },
   edit: EditComponent,
   save: SaveComponent
 });
@@ -119,6 +135,7 @@ function EditComponent() {
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)({
     className: "page-banner"
   });
+  const defaultLayout = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useSetting)("layout") || {};
   const useMeLater = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h1", {
     className: "headline headline--large"
   }, "Welcome!"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
@@ -139,7 +156,8 @@ function EditComponent() {
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "page-banner__content container t-center c-white"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks, {
-    allowedBlocks: ["ourblocktheme/genericheading"]
+    allowedBlocks: ["ourblocktheme/genericheading", "ourblocktheme/genericbutton"],
+    __experimentalLayout: defaultLayout
   })));
 }
 // return content of SaveComponent will be saved in database

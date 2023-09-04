@@ -109,8 +109,8 @@ function university_features()
     add_image_size('pageBanner', 1500, 350, true);
     // to load the entire css we used for our theme into the editor(our banner block)
     // used when loading block from theme instead of plugin.
-    // add_theme_support('editor-styles');
-    // add_editor_style(array('https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i', 'build/style-index.css', 'build/index.css'));
+    add_theme_support('editor-styles');
+    add_editor_style(array('https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i', 'build/style-index.css', 'build/index.css'));
 }
 add_action('after_setup_theme', 'university_features');
 
@@ -233,30 +233,40 @@ function makeNotePrivate($data, $postarr)
     return $data;
 }
 
-
-
-
-// registering our custom block type to use this banner.js asset in the editor
-add_action('init', 'onInit');
-
-function onInit()
+class JSXBlock
 {
-    // register javascript file
-    // first argument: name of the javascript asset
-    // wp_register_script($this->name, get_stylesheet_directory_uri() . "/build/{$this->name}.js", array('wp-blocks', 'wp-editor'));
-    // register block type
-    register_block_type(
-        __DIR__ . "/our-blocks/blockA"
+    function __construct($name)
+    {
+        $this->name = $name;
+        // registering our custom block type to use this banner.js asset in the editor
+        add_action('init', [$this, 'onInit']);
+    }
 
-    );
-    register_block_type(
-        __DIR__ . "/our-blocks/blockB"
-
-    );
+    function onInit()
+    {
+        // register javascript file
+        // first argument: name of the javascript asset
+        // wp_register_script($this->name, get_stylesheet_directory_uri() . "/build/{$this->name}.js", array('wp-blocks', 'wp-editor'));
+        // register block type
+        wp_register_script($this->name, get_stylesheet_directory_uri() . "/build/{$this->name}.js", array('wp-blocks', 'wp-editor'));
+        register_block_type("ourblocktheme/{$this->name}", array(
+            'editor_script' => $this->name
+        )
+        );
+    }
 }
-
-
-
 // to avoid repeated code for registering our block type we use the class JSXBlock instead.
+new JSXBlock('banner');
+new JSXBlock('genericheading');
+new JSXBlock('genericbutton');
+
+
+
+
+
+
+
+
+
 
 ?>

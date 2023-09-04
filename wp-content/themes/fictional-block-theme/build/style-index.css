@@ -964,13 +964,14 @@ body.login {
   color: #FAF0CA;
 }
 
+.block-editor-block-list__layout.is-root-container .wp-block:has([class*=banner]) {
+  max-width: 100% !important;
+}
+
 .page-banner {
   background-color: #000;
   padding: 80px 0 40px 0;
   position: relative;
-}
-.block-editor-block-list__layout.is-root-container .wp-block:has([class*="banner"]) {
-  max-width: 100%!important;
 }
 @media (min-width: 530px) {
   .page-banner {
