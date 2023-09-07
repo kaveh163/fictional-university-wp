@@ -70,19 +70,9 @@ function EditComponent() {
 }
 // return content of SaveComponent will be saved in database
 function SaveComponent() {
-  const blockProps = useBlockProps.save({ className: "page-banner" });
+  // const blockProps = useBlockProps.save({ className: "page-banner" });
+  // because the banner block can have blocks nested inside it, we do need to return this line below.
   return (
-    <div {...blockProps}>
-      <div
-        className="page-banner__bg-image"
-        style={{
-          backgroundImage:
-            "url('/fictional-university/wp-content/themes/fictional-block-theme/images/library-hero.jpg')",
-        }}
-      ></div>
-      <div className="page-banner__content container t-center c-white">
-        <InnerBlocks.Content />
-      </div>
-    </div>
+    <InnerBlocks.Content/>
   );
 }

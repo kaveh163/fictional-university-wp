@@ -235,13 +235,19 @@ function makeNotePrivate($data, $postarr)
 
 class JSXBlock
 {
-    function __construct($name)
+    function __construct($name, $renderCallback = null)
     {
         $this->name = $name;
+        $this->renderCallback = $renderCallback;
         // registering our custom block type to use this banner.js asset in the editor
         add_action('init', [$this, 'onInit']);
     }
-
+    // $content is for accessing nested block contents
+    function ourRenderCallback($attributes, $content) {
+        ob_start();
+        require get_theme_file_path("/our-blocks/{$this->name}.php");
+        return ob_get_clean();
+    }
     function onInit()
     {
         // register javascript file
@@ -249,14 +255,21 @@ class JSXBlock
         // wp_register_script($this->name, get_stylesheet_directory_uri() . "/build/{$this->name}.js", array('wp-blocks', 'wp-editor'));
         // register block type
         wp_register_script($this->name, get_stylesheet_directory_uri() . "/build/{$this->name}.js", array('wp-blocks', 'wp-editor'));
-        register_block_type("ourblocktheme/{$this->name}", array(
+        $ourArgs = array(
             'editor_script' => $this->name
-        )
+        );
+        if($this->renderCallback) {
+            $ourArgs['render_callback'] = [$this, 'ourRenderCallback'];
+        }
+        register_block_type(
+            "ourblocktheme/{$this->name}", $ourArgs
+            
         );
     }
 }
 // to avoid repeated code for registering our block type we use the class JSXBlock instead.
-new JSXBlock('banner');
+// true is for if we want a php render callback
+new JSXBlock('banner', true);
 new JSXBlock('genericheading');
 new JSXBlock('genericbutton');
 
