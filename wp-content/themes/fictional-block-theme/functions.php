@@ -235,9 +235,10 @@ function makeNotePrivate($data, $postarr)
 
 class JSXBlock
 {
-    function __construct($name, $renderCallback = null)
+    function __construct($name, $renderCallback = null, $data = null)
     {
         $this->name = $name;
+        $this->data = $data;
         $this->renderCallback = $renderCallback;
         // registering our custom block type to use this banner.js asset in the editor
         add_action('init', [$this, 'onInit']);
@@ -255,6 +256,11 @@ class JSXBlock
         // wp_register_script($this->name, get_stylesheet_directory_uri() . "/build/{$this->name}.js", array('wp-blocks', 'wp-editor'));
         // register block type
         wp_register_script($this->name, get_stylesheet_directory_uri() . "/build/{$this->name}.js", array('wp-blocks', 'wp-editor'));
+        
+        // wp_localize_script() should be below wp_register_script
+        if($this->data) {
+            wp_localize_script($this->name, $this->name, $this->data );
+        }
         $ourArgs = array(
             'editor_script' => $this->name
         );
@@ -269,7 +275,7 @@ class JSXBlock
 }
 // to avoid repeated code for registering our block type we use the class JSXBlock instead.
 // true is for if we want a php render callback
-new JSXBlock('banner', true);
+new JSXBlock('banner', true, ['fallbackimage' => get_theme_file_uri('/images/library-hero.jpg')]);
 new JSXBlock('genericheading');
 new JSXBlock('genericbutton');
 

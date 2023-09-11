@@ -1,3 +1,5 @@
+import apiFetch from "@wordpress/api-fetch";
+import { Button, PanelBody, PanelRow } from "@wordpress/components";
 // name of the our-blocks directory could be anything
 // instead of wp.blockEditor.InnerBlocks use below for wordpress scripts package
 // The InnerBlocks component lets us to click on the plus symbol in the block editor
@@ -8,7 +10,11 @@ import {
   useBlockProps,
   useInnerBlocksProps,
   useSetting,
+  InspectorControls,
+  MediaUpload,
+  MediaUploadCheck,
 } from "@wordpress/block-editor";
+import {useEffect} from "@wordpress/element"
 // first argument: namespace for all our blocks, and name for our specific block
 
 wp.blocks.registerBlockType("ourblocktheme/banner", {
@@ -19,7 +25,8 @@ wp.blocks.registerBlockType("ourblocktheme/banner", {
       type: "string",
       default: "full",
     },
-    
+    imgID: {type: "number"},
+    imgURL : {type: "string", default: banner.fallbackimage}
   },
 
   supports: {
@@ -35,44 +42,64 @@ wp.blocks.registerBlockType("ourblocktheme/banner", {
   save: SaveComponent,
 });
 
-function EditComponent() {
+function EditComponent(props) {
   const blockProps = useBlockProps({ className: "page-banner" });
   const defaultLayout = useSetting("layout") || {};
-  const useMeLater = (
-    <>
-      <h1 className="headline headline--large">Welcome!</h1>
-      <h2 className="headline headline--medium">
-        We think you&rsquo;ll like it here.
-      </h2>
-      <h3 className="headline headline--small">
-        Why don&rsquo;t you check out the <strong>major</strong> you&rsquo;re
-        interested in?
-      </h3>
-      <a href="#" className="btn btn--large btn--blue">
-        Find Your Major
-      </a>
-    </>
-  );
+  
+  useEffect(function() {
+    if(props.attributes.imgID) {
+      async function go() {
+        const response = await apiFetch({
+          path: `/wp/v2/media/${props.attributes.imgID}`,
+          method: 'GET'
+        });
+        props.setAttributes({imgURL : response.media_details.sizes.pageBanner.source_url})
+      }
+      go();
+    }
+  }, [props.attributes.imgID])
+
+  function onFileSelect(x) {
+    console.log(x);
+    props.setAttributes({imgID: x.id});
+  }
   return (
-    <div {...blockProps}>
-      <div
-        className="page-banner__bg-image"
-        style={{
-          backgroundImage:
-            "url('/fictional-university/wp-content/themes/fictional-block-theme/images/library-hero.jpg')",
-        }}
-      ></div>
-      <div className="page-banner__content container t-center c-white">
-        <InnerBlocks allowedBlocks={["ourblocktheme/genericheading", "ourblocktheme/genericbutton"]} __experimentalLayout={defaultLayout} />
+    <>
+      <InspectorControls>
+        <PanelBody title="Background" initialOpen={true}>
+          <PanelRow>
+            <MediaUploadCheck>
+              <MediaUpload onSelect={onFileSelect} value={props.attributes.imgID} render={({open}) => {
+                return <Button onClick={open}>Choose Image</Button>
+              }}/>
+            </MediaUploadCheck>
+          </PanelRow>
+        </PanelBody>
+      </InspectorControls>
+      <div {...blockProps}>
+        <div
+          className="page-banner__bg-image"
+          style={{
+            backgroundImage:
+              `url('${props.attributes.imgURL}')`,
+          }}
+        ></div>
+        <div className="page-banner__content container t-center c-white">
+          <InnerBlocks
+            allowedBlocks={[
+              "ourblocktheme/genericheading",
+              "ourblocktheme/genericbutton",
+            ]}
+            __experimentalLayout={defaultLayout}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 // return content of SaveComponent will be saved in database
 function SaveComponent() {
   // const blockProps = useBlockProps.save({ className: "page-banner" });
   // because the banner block can have blocks nested inside it, we do need to return this line below.
-  return (
-    <InnerBlocks.Content/>
-  );
+  return <InnerBlocks.Content />;
 }
