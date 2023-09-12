@@ -232,7 +232,38 @@ function makeNotePrivate($data, $postarr)
 
     return $data;
 }
+class PlaceholderBlock
+{
+    function __construct($name)
+    {
+        $this->name = $name;
 
+        // registering our custom block type to use this banner.js asset in the editor
+        add_action('init', [$this, 'onInit']);
+    }
+    // $content is for accessing nested block contents
+    function ourRenderCallback($attributes, $content)
+    {
+        ob_start();
+        require get_theme_file_path("/our-blocks/{$this->name}.php");
+        return ob_get_clean();
+    }
+    function onInit()
+    {
+        // register javascript file
+        // first argument: name of the javascript asset
+        // register block type
+        wp_register_script($this->name, get_stylesheet_directory_uri() . "/our-blocks/{$this->name}.js", array('wp-blocks', 'wp-editor'));
+        register_block_type(
+            "ourblocktheme/{$this->name}",
+            array(
+                'editor_script' => $this->name,
+                'render_callback' => [$this, 'ourRenderCallback']
+            )
+        );
+    }
+}
+new PlaceholderBlock("eventsandblogs");
 class JSXBlock
 {
     function __construct($name, $renderCallback = null, $data = null)
@@ -244,7 +275,8 @@ class JSXBlock
         add_action('init', [$this, 'onInit']);
     }
     // $content is for accessing nested block contents
-    function ourRenderCallback($attributes, $content) {
+    function ourRenderCallback($attributes, $content)
+    {
         ob_start();
         require get_theme_file_path("/our-blocks/{$this->name}.php");
         return ob_get_clean();
@@ -256,20 +288,21 @@ class JSXBlock
         // wp_register_script($this->name, get_stylesheet_directory_uri() . "/build/{$this->name}.js", array('wp-blocks', 'wp-editor'));
         // register block type
         wp_register_script($this->name, get_stylesheet_directory_uri() . "/build/{$this->name}.js", array('wp-blocks', 'wp-editor'));
-        
+
         // wp_localize_script() should be below wp_register_script
-        if($this->data) {
-            wp_localize_script($this->name, $this->name, $this->data );
+        if ($this->data) {
+            wp_localize_script($this->name, $this->name, $this->data);
         }
         $ourArgs = array(
             'editor_script' => $this->name
         );
-        if($this->renderCallback) {
+        if ($this->renderCallback) {
             $ourArgs['render_callback'] = [$this, 'ourRenderCallback'];
         }
         register_block_type(
-            "ourblocktheme/{$this->name}", $ourArgs
-            
+            "ourblocktheme/{$this->name}",
+            $ourArgs
+
         );
     }
 }
