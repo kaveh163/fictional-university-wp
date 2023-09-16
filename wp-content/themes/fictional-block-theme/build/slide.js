@@ -22,6 +22,16 @@ module.exports = window["wp"]["blockEditor"];
 
 /***/ }),
 
+/***/ "@wordpress/blocks":
+/*!********************************!*\
+  !*** external ["wp","blocks"] ***!
+  \********************************/
+/***/ (function(module) {
+
+module.exports = window["wp"]["blocks"];
+
+/***/ }),
+
 /***/ "@wordpress/components":
 /*!************************************!*\
   !*** external ["wp","components"] ***!
@@ -113,9 +123,9 @@ module.exports = window["wp"]["element"];
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 !function() {
-/*!******************************!*\
-  !*** ./our-blocks/banner.js ***!
-  \******************************/
+/*!*****************************!*\
+  !*** ./our-blocks/slide.js ***!
+  \*****************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
@@ -125,21 +135,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__);
 
 
 
-// name of the our-blocks directory could be anything
-// instead of wp.blockEditor.InnerBlocks use below for wordpress scripts package
-// The InnerBlocks component lets us to click on the plus symbol in the block editor
-// to start adding new blocks inside our block
-// To restrict the blocks we can add to our block, use allowedBlocks prop in InnerBlock Component
 
 
-// first argument: namespace for all our blocks, and name for our specific block
 
-wp.blocks.registerBlockType("ourblocktheme/banner", {
-  apiVersion: 2,
-  title: "Banner",
+(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__.registerBlockType)("ourblocktheme/slide", {
+  title: "Slide",
+  supports: {
+    align: ["full"]
+  },
   attributes: {
     align: {
       type: "string",
@@ -153,23 +161,11 @@ wp.blocks.registerBlockType("ourblocktheme/banner", {
       default: banner.fallbackimage
     }
   },
-  supports: {
-    align: ["full"],
-    __experimentalLayout: {
-      allowSwitching: false,
-      default: {
-        inherit: true
-      }
-    }
-  },
   edit: EditComponent,
   save: SaveComponent
 });
 function EditComponent(props) {
-  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.useBlockProps)({
-    className: "page-banner"
-  });
-  const defaultLayout = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.useSetting)("layout") || {};
+  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.useBlockProps)();
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (props.attributes.imgID) {
       async function go() {
@@ -185,7 +181,6 @@ function EditComponent(props) {
     }
   }, [props.attributes.imgID]);
   function onFileSelect(x) {
-    console.log(x);
     props.setAttributes({
       imgID: x.id
     });
@@ -205,27 +200,26 @@ function EditComponent(props) {
         onClick: open
       }, "Choose Image");
     }
-  }))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "page-banner__bg-image",
+  }))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "hero-slider__slide",
     style: {
       backgroundImage: `url('${props.attributes.imgURL}')`
     }
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "page-banner__content container t-center c-white"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "hero-slider__interior container"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "hero-slider__overlay t-center"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InnerBlocks, {
-    allowedBlocks: ["ourblocktheme/genericheading", "ourblocktheme/genericbutton"],
-    __experimentalLayout: defaultLayout
-  }))));
+    allowedBlocks: ["ourblocktheme/genericheading", "ourblocktheme/genericbutton"]
+  })))));
 }
-// return content of SaveComponent will be saved in database
 function SaveComponent() {
   const blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.useBlockProps.save();
-  // because the banner block can have blocks nested inside it, we do need to return this line below.
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InnerBlocks.Content, {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...blockProps
-  });
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InnerBlocks.Content, null));
 }
 }();
 /******/ })()
 ;
-//# sourceMappingURL=banner.js.map
+//# sourceMappingURL=slide.js.map

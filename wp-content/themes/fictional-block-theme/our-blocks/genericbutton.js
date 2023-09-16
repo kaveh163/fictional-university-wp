@@ -73,7 +73,7 @@ function EditComponent(props) {
     props.setAttributes({colorName: name});
   }
   return (
-    <>
+    <div {...blockProps}>
       <BlockControls>
         <ToolbarGroup>
           <ToolbarButton onClick={buttonHandler} icon={link} />
@@ -107,7 +107,6 @@ function EditComponent(props) {
         </PanelBody>
       </InspectorControls>
       <RichText
-        {...blockProps}
         allowedFormats={[]}
         tagName="a"
         className={`btn btn--${props.attributes.size} btn--${props.attributes.colorName}`}
@@ -120,7 +119,7 @@ function EditComponent(props) {
         <Button variant="primary" onClick={()=> setIsLinkPickerVisible(false)} style={{display: "block", width: "100%"}}>Confirm Link</Button>
       </Popover>
       )}
-    </>
+    </div>
   );
 }
 // return content of SaveComponent will be saved in database

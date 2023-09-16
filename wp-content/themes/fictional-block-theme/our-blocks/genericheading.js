@@ -33,7 +33,7 @@ function EditComponent(props) {
   }
 
   return (
-    <>
+    <div {...blockProps}>
       <BlockControls>
         <ToolbarGroup>
           <ToolbarButton
@@ -56,14 +56,14 @@ function EditComponent(props) {
           </ToolbarButton>
         </ToolbarGroup>
       </BlockControls>
-      <RichText {...blockProps}
+      <RichText 
         allowedFormats={["core/bold", "core/italic"]}
         tagName="h1"
         className={`headline headline--${props.attributes.size}`}
         value={props.attributes.text}
         onChange={handleTextChange}
       />
-    </>
+    </div>
   );
 }
 // return content of SaveComponent will be saved in database
