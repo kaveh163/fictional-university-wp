@@ -1,5 +1,9 @@
 <?php
 
+// When the theme is first enabled or when we revert back to the initial template that the theme is shipped with.
+if(!empty($attributes['themeimage'])) {
+    $attributes['imgURL'] = get_theme_file_uri('/images/' . $attributes['themeimage']) ;
+}
 if (!isset($attributes['imgURL'])) {
     $attributes['imgURL'] = get_theme_file_uri('/images/library-hero.jpg');
 }
