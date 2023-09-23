@@ -3,10 +3,11 @@ wp.blocks.registerBlockType("ourblocktheme/mynotes", {
     title: "Fictional University My Notes",
   
     edit: function () {
+      const blockProps = wp.blockEditor.useBlockProps({className: "our-placeholder-block"});
       //second argument of createElement is an object of props. for example className
       return wp.element.createElement(
         "div",
-        { className: "our-placeholder-block" },
+        { ...blockProps},
         "My Notes Placeholder"
       );
     },
