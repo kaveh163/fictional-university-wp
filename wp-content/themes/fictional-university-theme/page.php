@@ -5,7 +5,7 @@ while (have_posts()) {
     pageBanner();
     ?>
 
-    
+
 
     <div class="container container--narrow page-section">
 
@@ -32,7 +32,9 @@ while (have_posts()) {
         );
         if ($theParent or $testArray) { ?>
             <div class="page-links">
-                <h2 class="page-links__title"><a href="<?php echo get_permalink($theParent); ?>"><?php echo get_the_title($theParent) ?></a></h2>
+                <h2 class="page-links__title"><a href="<?php echo get_permalink($theParent); ?>">
+                        <?php echo get_the_title($theParent) ?>
+                    </a></h2>
                 <ul class="min-list">
 
 
@@ -57,7 +59,19 @@ while (have_posts()) {
         <?php } ?>
 
         <div class="generic-content">
-            <?php the_content(); ?>
+            <?php the_content();
+            //$skyColorValue = sanitize_text_field(get_query_var('skyColor'));
+            //$grassColorValue = sanitize_text_field(get_query_var('grassColor'));
+
+            //if ($skyColorValue == "blue" AND $grassColorValue == "green") {
+                //echo '<p>The sky is blue today and the grass is green. Life is good.</p>';
+            //}
+            ?>
+            <!-- <form method="post">
+                <input type="text" name="skyColor" placeholder="Sky color">
+                <input type="text" name="grassColor" placeholder="Grass color">
+                <button>Submit</button>
+            </form> -->
         </div>
     </div>
 

@@ -1,6 +1,13 @@
 <?php
 // Global function used in the theme templates
 
+function universityQueryVars($vars) {
+    $vars[] = 'skyColor';
+    $vars[] = 'grassColor';
+    return $vars;
+}
+// register a query variable
+add_filter('query_vars', 'universityQueryVars');
 require get_theme_file_path('/inc/like-route.php');
 require get_theme_file_path('/inc/search-route.php');
 function university_custom_rest() {
